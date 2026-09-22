@@ -1,0 +1,711 @@
+{
+  "graph_id": "38727f4a-29cd-4cde-8b70-38ee7dc8dfdb",
+  "nodes": [
+    {
+      "id": "xinghai",
+      "type": "Organization",
+      "properties": {
+        "color": "#A78BFA",
+        "industry": "智能制造",
+        "scale": "大型",
+        "content": "星海科技"
+      }
+    },
+    {
+      "id": "yunjidata",
+      "type": "Organization",
+      "properties": {
+        "color": "#A78BFA",
+        "industry": "数据服务",
+        "scale": "中型",
+        "content": "云际数据"
+      }
+    },
+    {
+      "id": "hengxin_bank",
+      "type": "Organization",
+      "properties": {
+        "color": "#A78BFA",
+        "industry": "金融",
+        "scale": "大型",
+        "content": "恒信银行"
+      }
+    },
+    {
+      "id": "zhongruan",
+      "type": "Organization",
+      "properties": {
+        "color": "#A78BFA",
+        "industry": "云服务",
+        "scale": "中型",
+        "content": "中软云"
+      }
+    },
+    {
+      "id": "chen_li",
+      "type": "Person",
+      "properties": {
+        "color": "#63E6FF",
+        "role": "CTO",
+        "content": "陈立"
+      }
+    },
+    {
+      "id": "zhou_min",
+      "type": "Person",
+      "properties": {
+        "color": "#63E6FF",
+        "role": "采购总监",
+        "content": "周敏"
+      }
+    },
+    {
+      "id": "li_hang",
+      "type": "Person",
+      "properties": {
+        "color": "#63E6FF",
+        "role": "风控负责人",
+        "content": "李航"
+      }
+    },
+    {
+      "id": "wang_lei",
+      "type": "Person",
+      "properties": {
+        "color": "#63E6FF",
+        "role": "交付经理",
+        "content": "王磊"
+      }
+    },
+    {
+      "id": "shanghai",
+      "type": "Location",
+      "properties": {
+        "color": "#34D399",
+        "region": "华东",
+        "content": "上海"
+      }
+    },
+    {
+      "id": "shenzhen",
+      "type": "Location",
+      "properties": {
+        "color": "#34D399",
+        "region": "华南",
+        "content": "深圳"
+      }
+    },
+    {
+      "id": "hangzhou",
+      "type": "Location",
+      "properties": {
+        "color": "#34D399",
+        "region": "华东",
+        "content": "杭州"
+      }
+    },
+    {
+      "id": "ht_2026_014",
+      "type": "Contract",
+      "properties": {
+        "color": "#FBBF24",
+        "amount": 4800000,
+        "currency": "CNY",
+        "content": "合同 HT-2026-014"
+      }
+    },
+    {
+      "id": "ht_2026_031",
+      "type": "Contract",
+      "properties": {
+        "color": "#FBBF24",
+        "amount": 1200000,
+        "currency": "CNY",
+        "content": "合同 HT-2026-031"
+      }
+    },
+    {
+      "id": "data_platform",
+      "type": "Product",
+      "properties": {
+        "color": "#F472B6",
+        "version": "v3.2",
+        "content": "数据中台"
+      }
+    },
+    {
+      "id": "kg_engine",
+      "type": "Product",
+      "properties": {
+        "color": "#F472B6",
+        "version": "v1.8",
+        "content": "知识图谱引擎"
+      }
+    },
+    {
+      "id": "risk_delay",
+      "type": "Risk",
+      "properties": {
+        "color": "#FB7185",
+        "severity": "MEDIUM",
+        "content": "交付延期风险"
+      }
+    },
+    {
+      "id": "risk_sanction",
+      "type": "Risk",
+      "properties": {
+        "color": "#FB7185",
+        "severity": "HIGH",
+        "content": "制裁名单命中"
+      }
+    },
+    {
+      "id": "risk_concentration",
+      "type": "Risk",
+      "properties": {
+        "color": "#FB7185",
+        "severity": "MEDIUM",
+        "content": "供应商集中度过高"
+      }
+    },
+    {
+      "id": "bacf37ea-d3ab-4ad1-a0a5-f2c7e84af498",
+      "type": "decision",
+      "properties": {
+        "category": "supplier_selection",
+        "outcome": "选择云际数据",
+        "confidence": 0.86,
+        "timestamp": 1790062048.409981,
+        "scenario": "为数据中台项目选择交付供应商（云际数据 vs 中软云）",
+        "decision_maker": "周敏",
+        "reasoning": "云际数据在制造业数据集成案例更多，交付团队常驻深圳可现场支持，报价低 12%",
+        "recorded_at": "2026-09-22T07:27:28.410087",
+        "contract": "HT-2026-014",
+        "content": "为数据中台项目选择交付供应商（云际数据 vs 中软云）"
+      }
+    },
+    {
+      "id": "category_supplier_selection",
+      "type": "category",
+      "properties": {
+        "name": "supplier_selection",
+        "content": "category_supplier_selection"
+      }
+    },
+    {
+      "id": "maker_周敏",
+      "type": "decision_maker",
+      "properties": {
+        "name": "周敏",
+        "content": "maker_周敏"
+      }
+    },
+    {
+      "id": "f5532684-f84b-49bc-b8ca-92916ca2003f",
+      "type": "decision",
+      "properties": {
+        "category": "risk_review",
+        "outcome": "放行，附加季度复核",
+        "confidence": 0.74,
+        "timestamp": 1790062048.410504,
+        "scenario": "云际数据股东结构穿透审查",
+        "decision_maker": "李航",
+        "reasoning": "穿透两层股权后未命中制裁名单，最终受益人无负面记录",
+        "recorded_at": "2026-09-22T07:27:28.410528",
+        "content": "云际数据股东结构穿透审查"
+      }
+    },
+    {
+      "id": "category_risk_review",
+      "type": "category",
+      "properties": {
+        "name": "risk_review",
+        "content": "category_risk_review"
+      }
+    },
+    {
+      "id": "maker_李航",
+      "type": "decision_maker",
+      "properties": {
+        "name": "李航",
+        "content": "maker_李航"
+      }
+    },
+    {
+      "id": "63ccfc2f-6363-42e3-99aa-d9b61545ea87",
+      "type": "decision",
+      "properties": {
+        "category": "credit_approval",
+        "outcome": "批准授信 480 万元",
+        "confidence": 0.92,
+        "timestamp": 1790062048.410824,
+        "scenario": "星海科技 480 万元买方信贷申请",
+        "decision_maker": "李航",
+        "reasoning": "近三年营收复合增长 21%，资产负债率 46%，合同已签且有历史履约记录",
+        "recorded_at": "2026-09-22T07:27:28.410839",
+        "content": "星海科技 480 万元买方信贷申请"
+      }
+    },
+    {
+      "id": "category_credit_approval",
+      "type": "category",
+      "properties": {
+        "name": "credit_approval",
+        "content": "category_credit_approval"
+      }
+    },
+    {
+      "id": "6d6ec4f2-3438-41f9-853d-59255056a455",
+      "type": "decision",
+      "properties": {
+        "category": "interest_rate",
+        "outcome": "执行利率 5.9%",
+        "confidence": 0.95,
+        "timestamp": 1790062048.411165,
+        "scenario": "授信利率定价（客户风险分层 B2）",
+        "decision_maker": "李航",
+        "reasoning": "基准 LPR 加 2.4 个百分点，抵押物覆盖 1.4 倍",
+        "recorded_at": "2026-09-22T07:27:28.411179",
+        "content": "授信利率定价（客户风险分层 B2）"
+      }
+    },
+    {
+      "id": "category_interest_rate",
+      "type": "category",
+      "properties": {
+        "name": "interest_rate",
+        "content": "category_interest_rate"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "138e288e-b68a-5143-bceb-45310d40a89c",
+      "familyId": "138e288e-b68a-5143-bceb-45310d40a89c",
+      "source_id": "chen_li",
+      "target_id": "xinghai",
+      "type": "WORKS_AT",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "2ff01298-c4dc-5671-964b-f81d338f5bf3",
+      "familyId": "2ff01298-c4dc-5671-964b-f81d338f5bf3",
+      "source_id": "zhou_min",
+      "target_id": "xinghai",
+      "type": "WORKS_AT",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "b35ed7a2-24e5-5bc9-a924-906dd9b9d0dd",
+      "familyId": "b35ed7a2-24e5-5bc9-a924-906dd9b9d0dd",
+      "source_id": "li_hang",
+      "target_id": "hengxin_bank",
+      "type": "WORKS_AT",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "63e57f5e-2f22-53b4-a37d-719c87e88154",
+      "familyId": "63e57f5e-2f22-53b4-a37d-719c87e88154",
+      "source_id": "wang_lei",
+      "target_id": "yunjidata",
+      "type": "WORKS_AT",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "111ad314-e6aa-58f3-881f-92883baf78d8",
+      "familyId": "111ad314-e6aa-58f3-881f-92883baf78d8",
+      "source_id": "xinghai",
+      "target_id": "shanghai",
+      "type": "LOCATED_IN",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "04a340ed-4eb5-56b1-9065-1c474cc03980",
+      "familyId": "04a340ed-4eb5-56b1-9065-1c474cc03980",
+      "source_id": "yunjidata",
+      "target_id": "shenzhen",
+      "type": "LOCATED_IN",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "37bb4d04-994c-533e-906d-78063a930696",
+      "familyId": "37bb4d04-994c-533e-906d-78063a930696",
+      "source_id": "hengxin_bank",
+      "target_id": "shenzhen",
+      "type": "LOCATED_IN",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "5bced1a5-76ef-504a-bdc0-f95cc9c3f144",
+      "familyId": "5bced1a5-76ef-504a-bdc0-f95cc9c3f144",
+      "source_id": "zhongruan",
+      "target_id": "hangzhou",
+      "type": "LOCATED_IN",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "c8edc5e1-6922-5dcf-a3bf-15902daf2c24",
+      "familyId": "c8edc5e1-6922-5dcf-a3bf-15902daf2c24",
+      "source_id": "xinghai",
+      "target_id": "ht_2026_014",
+      "type": "PARTY_TO",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "a4751fbe-2c10-52ba-bc86-955283759230",
+      "familyId": "a4751fbe-2c10-52ba-bc86-955283759230",
+      "source_id": "yunjidata",
+      "target_id": "ht_2026_014",
+      "type": "PARTY_TO",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "a9fddc30-e84b-5f9d-b713-576b939cb966",
+      "familyId": "a9fddc30-e84b-5f9d-b713-576b939cb966",
+      "source_id": "xinghai",
+      "target_id": "ht_2026_031",
+      "type": "PARTY_TO",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "e211118f-5ad0-559f-91e3-2ac9600394a9",
+      "familyId": "e211118f-5ad0-559f-91e3-2ac9600394a9",
+      "source_id": "zhongruan",
+      "target_id": "ht_2026_031",
+      "type": "PARTY_TO",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "fea1d933-619c-5e48-a1b1-7b698421e965",
+      "familyId": "fea1d933-619c-5e48-a1b1-7b698421e965",
+      "source_id": "yunjidata",
+      "target_id": "data_platform",
+      "type": "SUPPLIES",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "74aad74c-376f-592b-9a86-164fe5dcad8c",
+      "familyId": "74aad74c-376f-592b-9a86-164fe5dcad8c",
+      "source_id": "zhongruan",
+      "target_id": "kg_engine",
+      "type": "SUPPLIES",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "545fd786-e6b6-504c-b851-710c83f9809a",
+      "familyId": "545fd786-e6b6-504c-b851-710c83f9809a",
+      "source_id": "wang_lei",
+      "target_id": "ht_2026_014",
+      "type": "DELIVERS",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "97c4d4c2-b422-5174-9fde-3aedbe05617c",
+      "familyId": "97c4d4c2-b422-5174-9fde-3aedbe05617c",
+      "source_id": "zhou_min",
+      "target_id": "ht_2026_014",
+      "type": "SIGNS",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "b8864411-73de-5512-b385-dfd0c013bc2c",
+      "familyId": "b8864411-73de-5512-b385-dfd0c013bc2c",
+      "source_id": "data_platform",
+      "target_id": "xinghai",
+      "type": "DEPLOYED_TO",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "5df9d687-5c4d-5c24-9e3c-6875ba1dea37",
+      "familyId": "5df9d687-5c4d-5c24-9e3c-6875ba1dea37",
+      "source_id": "kg_engine",
+      "target_id": "xinghai",
+      "type": "DEPLOYED_TO",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "fc3f2384-bcee-525b-b768-75559ff86458",
+      "familyId": "fc3f2384-bcee-525b-b768-75559ff86458",
+      "source_id": "yunjidata",
+      "target_id": "xinghai",
+      "type": "SUPPLIER_OF",
+      "weight": 1.0,
+      "properties": {},
+      "valid_from": "2025-03-01T00:00:00",
+      "valid_until": "2027-03-01T00:00:00"
+    },
+    {
+      "id": "cfe87f55-86cc-5e07-ad16-66ec2d6a2ae2",
+      "familyId": "cfe87f55-86cc-5e07-ad16-66ec2d6a2ae2",
+      "source_id": "zhongruan",
+      "target_id": "xinghai",
+      "type": "SUPPLIER_OF",
+      "weight": 1.0,
+      "properties": {},
+      "valid_from": "2024-06-01T00:00:00",
+      "valid_until": "2026-06-01T00:00:00"
+    },
+    {
+      "id": "6f2f6738-fd1d-5fc1-9bc4-340feea5cad3",
+      "familyId": "6f2f6738-fd1d-5fc1-9bc4-340feea5cad3",
+      "source_id": "ht_2026_014",
+      "target_id": "risk_delay",
+      "type": "EXPOSES",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "4d9a6459-222f-508a-80ff-d8d665e8efe3",
+      "familyId": "4d9a6459-222f-508a-80ff-d8d665e8efe3",
+      "source_id": "ht_2026_014",
+      "target_id": "risk_concentration",
+      "type": "EXPOSES",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "8e6fc33a-c9a4-5049-9cac-7897025cd706",
+      "familyId": "8e6fc33a-c9a4-5049-9cac-7897025cd706",
+      "source_id": "risk_sanction",
+      "target_id": "yunjidata",
+      "type": "AFFECTS",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "c8307958-7d55-59ee-9904-b39f775376db",
+      "familyId": "c8307958-7d55-59ee-9904-b39f775376db",
+      "source_id": "bacf37ea-d3ab-4ad1-a0a5-f2c7e84af498",
+      "target_id": "yunjidata",
+      "type": "involves",
+      "weight": 1.0,
+      "properties": {
+        "confidence": 0.86
+      }
+    },
+    {
+      "id": "b2f2a4ac-28f9-5caa-973d-801cc3a2a870",
+      "familyId": "b2f2a4ac-28f9-5caa-973d-801cc3a2a870",
+      "source_id": "bacf37ea-d3ab-4ad1-a0a5-f2c7e84af498",
+      "target_id": "zhongruan",
+      "type": "involves",
+      "weight": 1.0,
+      "properties": {
+        "confidence": 0.86
+      }
+    },
+    {
+      "id": "e24e8e09-b226-5c91-8366-e849f91093e4",
+      "familyId": "e24e8e09-b226-5c91-8366-e849f91093e4",
+      "source_id": "bacf37ea-d3ab-4ad1-a0a5-f2c7e84af498",
+      "target_id": "xinghai",
+      "type": "involves",
+      "weight": 1.0,
+      "properties": {
+        "confidence": 0.86
+      }
+    },
+    {
+      "id": "a41af3f9-4849-59de-9dd0-e81f48f5a2b6",
+      "familyId": "a41af3f9-4849-59de-9dd0-e81f48f5a2b6",
+      "source_id": "bacf37ea-d3ab-4ad1-a0a5-f2c7e84af498",
+      "target_id": "category_supplier_selection",
+      "type": "belongs_to",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "8a9d37b5-b2d8-53b7-91a5-c0d8e37fd67b",
+      "familyId": "8a9d37b5-b2d8-53b7-91a5-c0d8e37fd67b",
+      "source_id": "bacf37ea-d3ab-4ad1-a0a5-f2c7e84af498",
+      "target_id": "maker_周敏",
+      "type": "made_by",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "0eafe059-d00d-590b-a136-d3f924d3e783",
+      "familyId": "0eafe059-d00d-590b-a136-d3f924d3e783",
+      "source_id": "f5532684-f84b-49bc-b8ca-92916ca2003f",
+      "target_id": "yunjidata",
+      "type": "involves",
+      "weight": 1.0,
+      "properties": {
+        "confidence": 0.74
+      }
+    },
+    {
+      "id": "10c97d12-b144-59c7-bd97-ef7e4c0fd749",
+      "familyId": "10c97d12-b144-59c7-bd97-ef7e4c0fd749",
+      "source_id": "f5532684-f84b-49bc-b8ca-92916ca2003f",
+      "target_id": "risk_sanction",
+      "type": "involves",
+      "weight": 1.0,
+      "properties": {
+        "confidence": 0.74
+      }
+    },
+    {
+      "id": "5875fdd6-f4e0-5e78-b7aa-ad1cc35922e6",
+      "familyId": "5875fdd6-f4e0-5e78-b7aa-ad1cc35922e6",
+      "source_id": "f5532684-f84b-49bc-b8ca-92916ca2003f",
+      "target_id": "category_risk_review",
+      "type": "belongs_to",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "b8e7271e-3a2b-591e-8dfc-78034a30cf84",
+      "familyId": "b8e7271e-3a2b-591e-8dfc-78034a30cf84",
+      "source_id": "f5532684-f84b-49bc-b8ca-92916ca2003f",
+      "target_id": "maker_李航",
+      "type": "made_by",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "d1d36749-9d8e-56a5-8547-d6a0f7d8e597",
+      "familyId": "d1d36749-9d8e-56a5-8547-d6a0f7d8e597",
+      "source_id": "63ccfc2f-6363-42e3-99aa-d9b61545ea87",
+      "target_id": "xinghai",
+      "type": "involves",
+      "weight": 1.0,
+      "properties": {
+        "confidence": 0.92
+      }
+    },
+    {
+      "id": "cd8be56b-a4c8-5e30-9a4e-20ec7102cf96",
+      "familyId": "cd8be56b-a4c8-5e30-9a4e-20ec7102cf96",
+      "source_id": "63ccfc2f-6363-42e3-99aa-d9b61545ea87",
+      "target_id": "hengxin_bank",
+      "type": "involves",
+      "weight": 1.0,
+      "properties": {
+        "confidence": 0.92
+      }
+    },
+    {
+      "id": "b18cea37-6ac9-5d21-8c37-9bc2f0c08d76",
+      "familyId": "b18cea37-6ac9-5d21-8c37-9bc2f0c08d76",
+      "source_id": "63ccfc2f-6363-42e3-99aa-d9b61545ea87",
+      "target_id": "ht_2026_014",
+      "type": "involves",
+      "weight": 1.0,
+      "properties": {
+        "confidence": 0.92
+      }
+    },
+    {
+      "id": "18424c90-4725-53c0-8b2f-764be9e0912c",
+      "familyId": "18424c90-4725-53c0-8b2f-764be9e0912c",
+      "source_id": "63ccfc2f-6363-42e3-99aa-d9b61545ea87",
+      "target_id": "category_credit_approval",
+      "type": "belongs_to",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "05f7bb6e-dcaa-56b5-b183-d63f453ff639",
+      "familyId": "05f7bb6e-dcaa-56b5-b183-d63f453ff639",
+      "source_id": "63ccfc2f-6363-42e3-99aa-d9b61545ea87",
+      "target_id": "maker_李航",
+      "type": "made_by",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "b2ddee84-cda2-5354-ab79-64b667bb80c9",
+      "familyId": "b2ddee84-cda2-5354-ab79-64b667bb80c9",
+      "source_id": "6d6ec4f2-3438-41f9-853d-59255056a455",
+      "target_id": "hengxin_bank",
+      "type": "involves",
+      "weight": 1.0,
+      "properties": {
+        "confidence": 0.95
+      }
+    },
+    {
+      "id": "e2b92c9b-7f90-593c-bcf7-89339b845148",
+      "familyId": "e2b92c9b-7f90-593c-bcf7-89339b845148",
+      "source_id": "6d6ec4f2-3438-41f9-853d-59255056a455",
+      "target_id": "xinghai",
+      "type": "involves",
+      "weight": 1.0,
+      "properties": {
+        "confidence": 0.95
+      }
+    },
+    {
+      "id": "eb47efa3-0154-5507-a9e9-afd1989521aa",
+      "familyId": "eb47efa3-0154-5507-a9e9-afd1989521aa",
+      "source_id": "6d6ec4f2-3438-41f9-853d-59255056a455",
+      "target_id": "category_interest_rate",
+      "type": "belongs_to",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "16f7b513-6021-545e-8f22-c184c6e9f216",
+      "familyId": "16f7b513-6021-545e-8f22-c184c6e9f216",
+      "source_id": "6d6ec4f2-3438-41f9-853d-59255056a455",
+      "target_id": "maker_李航",
+      "type": "made_by",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "id": "7ff7322b-d7ea-51d8-b138-491ca276828e",
+      "familyId": "7ff7322b-d7ea-51d8-b138-491ca276828e",
+      "source_id": "bacf37ea-d3ab-4ad1-a0a5-f2c7e84af498",
+      "target_id": "f5532684-f84b-49bc-b8ca-92916ca2003f",
+      "type": "CAUSED",
+      "weight": 1.0,
+      "properties": {
+        "recorded_at": "2026-09-22T07:27:28.411441"
+      }
+    },
+    {
+      "id": "a951b4b1-fe89-51e6-b488-17c97a67dbbd",
+      "familyId": "a951b4b1-fe89-51e6-b488-17c97a67dbbd",
+      "source_id": "f5532684-f84b-49bc-b8ca-92916ca2003f",
+      "target_id": "63ccfc2f-6363-42e3-99aa-d9b61545ea87",
+      "type": "INFLUENCED",
+      "weight": 1.0,
+      "properties": {
+        "recorded_at": "2026-09-22T07:27:28.411490"
+      }
+    },
+    {
+      "id": "b6b4996f-8c4a-5e60-9e7f-0679ed0e9ee2",
+      "familyId": "b6b4996f-8c4a-5e60-9e7f-0679ed0e9ee2",
+      "source_id": "63ccfc2f-6363-42e3-99aa-d9b61545ea87",
+      "target_id": "6d6ec4f2-3438-41f9-853d-59255056a455",
+      "type": "CAUSED",
+      "weight": 1.0,
+      "properties": {
+        "recorded_at": "2026-09-22T07:27:28.411532"
+      }
+    }
+  ],
+  "links": []
+}

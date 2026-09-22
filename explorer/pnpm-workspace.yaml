@@ -1,0 +1,6 @@
+allowBuilds:
+  # esbuild ships a platform-specific binary and needs its postinstall script.
+  # Vite 6 pulls it in directly, and the package.json `overrides` entry pins a
+  # second copy at 0.28.x - both must be allowed, otherwise pnpm (strictDepBuilds)
+  # fails with ERR_PNPM_IGNORED_BUILDS.
+  esbuild: true
