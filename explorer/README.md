@@ -111,7 +111,7 @@ Open a second terminal in `explorer/`:
 npm run dev
 ```
 
-Vite starts on **`http://localhost:5173`**. Open that URL in your browser. All `/api` and `/ws` requests are automatically proxied to the Python backend at `http://127.0.0.1:8000`.
+Vite starts on **`http://localhost:2000`**. Open that URL in your browser. All `/api` and `/ws` requests are automatically proxied to the Python backend at `http://127.0.0.1:8000`.
 
 ---
 
@@ -230,7 +230,7 @@ The frontend bundle is missing from the server's static directory. Fix options:
 
 - **If you installed via pip:** `pip install --upgrade "semantica[explorer]"` — the wheel includes the pre-built bundle.
 - **If you installed from source:** run `cd explorer && npm ci && npm run build` from the repo root, then restart the server.
-- **In dev mode:** use the Vite dev server at `http://localhost:5173` instead of the backend URL.
+- **In dev mode:** use the Vite dev server at `http://localhost:2000` instead of the backend URL.
 
 ### Blank graph / no data loads in the browser
 
@@ -246,9 +246,9 @@ The `package-lock.json` must be present. Run `npm install` once to generate it, 
 
 Vite 6 requires **Node 18 or higher**. Run `node --version` to check. If you're on Node 16, upgrade via [nvm](https://github.com/nvm-sh/nvm) or the official Node.js installer.
 
-### Port 5173 already in use
+### Port 2000 already in use
 
-Vite automatically tries the next available port and prints the actual URL in the terminal. Use the URL shown in the output.
+The dev server runs with `strictPort`, so Vite fails fast instead of silently moving to the next port. Free port 2000 (or run with `vite --port <other>`) and restart.
 
 ### WebSocket not connecting (real-time mutations not appearing)
 
