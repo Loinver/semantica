@@ -73,6 +73,7 @@ import type {
   GraphTemporalState,
   GraphViewMode,
 } from "./types";
+import { useTranslation } from "../../i18n";
 
 type SearchResult = {
   node: {
@@ -309,6 +310,7 @@ function SearchCommandBar({
   onSubmit: () => void;
   onSelectSuggestion: (result: SearchResult) => void;
 }) {
+  const { t } = useTranslation();
   const [suggestions, setSuggestions] = useState<SearchResult[]>([]);
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
@@ -424,18 +426,18 @@ function SearchCommandBar({
             closeSuggestions();
           }
         }}
-        placeholder="Search command, node, or concept"
-        aria-label="Search graph nodes"
+        placeholder={t("graph.searchPlaceholder")}
+        aria-label={t("graph.searchNodes")}
         aria-autocomplete="list"
         aria-controls={listboxId}
         aria-activedescendant={highlightedIndex >= 0 ? `${listboxId}-${highlightedIndex}` : undefined}
       />
-      <button type="submit" disabled={disabled} aria-label="Search for the current query">
-        Search
+      <button type="submit" disabled={disabled} aria-label={t("graph.search") }>
+        {t("graph.search")}
       </button>
 
       {suggestionsOpen && suggestions.length > 0 ? (
-        <ul id={listboxId} role="listbox" className="explore-search-suggestions" aria-label="Search suggestions">
+        <ul id={listboxId} role="listbox" className="explore-search-suggestions" aria-label={t("graph.searchSuggestions")}>
           {suggestions.map((result, index) => (
             <li
               key={result.node.id}
@@ -460,15 +462,16 @@ function SearchCommandBar({
 }
 
 function SemanticColorLegend({ items }: { items: GraphColorLegendItem[] }) {
+  const { t } = useTranslation();
   if (!items.length) return null;
   return (
-    <div className="explore-color-legend" role="group" aria-label="Node colors">
-      <span className="explore-color-legend-label" title="Base semantic colors; selection, zoom, and distance effects can change node appearance.">
-        Node colors
+    <div className="explore-color-legend" role="group" aria-label={t("graph.nodeColors")}>
+      <span className="explore-color-legend-label" title={t("graph.nodeColorsHelp")}>
+        {t("graph.nodeColors")}
       </span>
       <ul className="explore-color-legend-items">
         {items.map((item) => (
-          <li key={item.id} className="explore-color-legend-item" title={`${item.group}: ${item.count.toLocaleString()} nodes`}>
+          <li key={item.id} className="explore-color-legend-item" title={`${item.group}: ${t("graph.nodeCount", { count: item.count.toLocaleString() })}`}>
             <span className="explore-color-legend-mark" style={{ backgroundColor: item.color }} aria-hidden="true" />
             <span className="explore-color-legend-name">{item.group}</span>
           </li>
@@ -1248,6 +1251,7 @@ interface GraphWorkspaceProps {
 }
 
 export function GraphWorkspace({ externalFocusNodeId, externalFocusToken, onDirtyChange }: GraphWorkspaceProps = {}) {
+  const { t } = useTranslation();
   const [selectedNodeId, setSelectedNodeId] = useState("");
   const [focusedNodeId, setFocusedNodeId] = useState("");
   const [lastGroupedSelectedNodeId, setLastGroupedSelectedNodeId] = useState("");
@@ -2422,8 +2426,8 @@ export function GraphWorkspace({ externalFocusNodeId, externalFocusToken, onDirt
       {
         id: "exploration-effects",
         panelId: "effects-panel",
-        label: "Effects",
-        title: "Open exploration effects controls",
+        label: t("graph.effects"),
+        title: t("graph.effectsHelp"),
         order: 18,
         load: loadExplorationEffectsPlugin,
         shouldLoad: explorationEffectsShouldLoad,
@@ -2431,8 +2435,8 @@ export function GraphWorkspace({ externalFocusNodeId, externalFocusToken, onDirt
       {
         id: "neighborhood-panel",
         panelId: "neighborhood-panel",
-        label: "Neighbors",
-        title: "Toggle neighborhood panel",
+        label: t("graph.neighbors"),
+        title: t("graph.neighborsHelp"),
         order: 30,
         load: loadNeighborhoodPanelPlugin,
         shouldLoad: neighborhoodPanelShouldLoad,
@@ -2440,14 +2444,14 @@ export function GraphWorkspace({ externalFocusNodeId, externalFocusToken, onDirt
       {
         id: "temporal-overlay",
         panelId: "temporal-panel",
-        label: "Temporal",
-        title: "Toggle temporal context panel",
+        label: t("graph.temporal"),
+        title: t("graph.temporalHelp"),
         order: 40,
         load: loadTemporalOverlayPlugin,
         shouldLoad: temporalOverlayShouldLoad,
       },
     ],
-    [],
+    [t],
   );
   const activePlugins = useMemo(
     () => pluginRegistry.map((entry) => loadedPlugins[entry.id]).filter((plugin): plugin is GraphPlugin => Boolean(plugin)),
@@ -2793,17 +2797,17 @@ export function GraphWorkspace({ externalFocusNodeId, externalFocusToken, onDirt
     return [
       {
         id: "view-full",
-        label: "Full Graph",
-        title: "Return to the full graph context",
+        label: t("graph.fullGraph"),
+        title: t("graph.fullGraphHelp"),
         icon: Layers3,
         active: viewMode === "full",
         onClick: () => setLayoutViewMode("full"),
       },
       {
         id: "view-grouped",
-        label: "Grouped View",
+        label: t("graph.groupedView"),
         title: displayState.groupedViewAvailable
-          ? "Compress dense structure into detected communities"
+          ? t("graph.groupedViewHelp")
           : (groupedViewReasonText(displayState.groupedViewReason)
             ?? groupedViewReasonText({ code: "communities-undetected" })
             ?? undefined),
@@ -2814,9 +2818,9 @@ export function GraphWorkspace({ externalFocusNodeId, externalFocusToken, onDirt
       },
       {
         id: "view-focused",
-        label: "Focus",
+        label: t("graph.focus"),
         title: canActivateFocusedMode
-          ? "Inspect the selected node in a focused local graph"
+          ? t("graph.focusHelp")
           : (focusedUnavailableReasonText(focusedSelectionResolution.reason) ?? undefined),
         icon: Focus,
         active: viewMode === "focused",
@@ -2838,50 +2842,51 @@ export function GraphWorkspace({ externalFocusNodeId, externalFocusToken, onDirt
     focusedSelectionResolution.resolvedNodeId,
     hasGraphContent,
     setLayoutViewMode,
+    t,
     viewMode,
   ]);
 
   const cameraToolbarItems = useMemo<GraphToolbarItem[]>(() => [
     {
       id: "zoom-in",
-      label: "Zoom In",
-      title: "Zoom in (or scroll up on the canvas)",
-      ariaLabel: "Zoom in",
+      label: t("graph.zoomIn"),
+      title: t("graph.zoomInHelp"),
+      ariaLabel: t("graph.zoomIn"),
       icon: ZoomIn,
       compact: true,
       onClick: () => sceneRef.current?.zoomIn(),
     },
     {
       id: "zoom-out",
-      label: "Zoom Out",
-      title: "Zoom out (or scroll down on the canvas)",
-      ariaLabel: "Zoom out",
+      label: t("graph.zoomOut"),
+      title: t("graph.zoomOutHelp"),
+      ariaLabel: t("graph.zoomOut"),
       icon: ZoomOut,
       compact: true,
       onClick: () => sceneRef.current?.zoomOut(),
     },
     {
       id: "fit-view",
-      label: "Fit",
-      title: "Reset the camera to fit the whole graph",
-      ariaLabel: "Fit view",
+      label: t("graph.fit"),
+      title: t("graph.fitHelp"),
+      ariaLabel: t("graph.fit"),
       icon: Maximize2,
       compact: true,
       onClick: () => sceneRef.current?.fitView(),
     },
-  ], []);
+  ], [t]);
 
   const layoutToolbarItems = useMemo<GraphToolbarItem[]>(() => [
     {
       id: "layout-toggle",
-      label: isLayoutRunning ? "Pause" : "Run",
-      title: "Toggle the layout worker",
+      label: isLayoutRunning ? t("graph.pause") : t("graph.run"),
+      title: t("graph.layoutHelp"),
       icon: isLayoutRunning ? Pause : Play,
       active: isLayoutRunning,
       disabled: showLoadingOverlay,
       onClick: () => setIsLayoutRunning((value) => !value),
     },
-  ], [isLayoutRunning, showLoadingOverlay]);
+  ], [isLayoutRunning, showLoadingOverlay, t]);
 
   const localToolbarItems = useMemo<GraphToolbarItem[]>(() => {
     if (!selectedNodeState) {
@@ -2891,22 +2896,22 @@ export function GraphWorkspace({ externalFocusNodeId, externalFocusToken, onDirt
     return [
       {
         id: "collapse-neighborhood",
-        label: "Collapse",
-        title: "Hide lower-priority fanout around the selected node",
+        label: t("graph.collapse"),
+        title: t("graph.collapseHelp"),
         icon: Eye,
         disabled: !selectedNodeState.canCollapseNeighborhood || selectedNodeState.isNeighborhoodCollapsed,
         onClick: () => handlePluginAction({ type: "collapseNeighborhood" }),
       },
       {
         id: "expand-neighborhood",
-        label: "Expand",
-        title: "Restore the collapsed local neighborhood",
+        label: t("graph.expand"),
+        title: t("graph.expandHelp"),
         icon: Users,
         disabled: !selectedNodeState.isNeighborhoodCollapsed,
         onClick: () => handlePluginAction({ type: "expandNeighborhood" }),
       },
     ];
-  }, [handlePluginAction, selectedNodeState]);
+  }, [handlePluginAction, selectedNodeState, t]);
 
   const analysisToolbarItems = useMemo<GraphToolbarItem[]>(
     () => pluginToolbarItems.map((item) => ({
@@ -2923,15 +2928,15 @@ export function GraphWorkspace({ externalFocusNodeId, externalFocusToken, onDirt
   const utilityToolbarItems = useMemo<GraphToolbarItem[]>(() => [
     {
       id: "reload",
-      label: "Reload",
-      title: "Reload the graph data",
-      ariaLabel: "Reload graph data",
+      label: t("graph.reload"),
+      title: t("graph.reloadHelp"),
+      ariaLabel: t("graph.reload"),
       icon: RefreshCw,
       compact: true,
       disabled: showLoadingOverlay,
       onClick: reload,
     },
-  ], [reload, showLoadingOverlay]);
+  ], [reload, showLoadingOverlay, t]);
 
   const searchDisabled = showLoadingOverlay || !searchQuery.trim();
 
@@ -2995,17 +3000,17 @@ export function GraphWorkspace({ externalFocusNodeId, externalFocusToken, onDirt
   const toolbarClusters = useMemo<GraphToolbarGroup[]>(() => [
     {
       id: "camera",
-      label: "Camera",
+      label: t("graph.camera"),
       items: cameraToolbarItems,
     },
     {
       id: "layout",
-      label: "Layout",
+      label: t("graph.layout"),
       items: layoutToolbarItems,
     },
     {
       id: "local-structure",
-      label: "Local",
+      label: t("graph.local"),
       items: localToolbarItems,
     },
     {
@@ -3015,12 +3020,12 @@ export function GraphWorkspace({ externalFocusNodeId, externalFocusToken, onDirt
     },
     {
       id: "analysis",
-      label: "Analysis",
+      label: t("graph.analysis"),
       items: analysisToolbarItems,
     },
     {
       id: "utility",
-      label: "Utility",
+      label: t("graph.utility"),
       items: utilityToolbarItems,
     },
   ].filter((group) => group.items.length > 0), [
@@ -3030,6 +3035,7 @@ export function GraphWorkspace({ externalFocusNodeId, externalFocusToken, onDirt
     layoutToolbarItems,
     localToolbarItems,
     utilityToolbarItems,
+    t,
   ]);
 
   const sceneAdapterProps = {
@@ -3114,13 +3120,13 @@ export function GraphWorkspace({ externalFocusNodeId, externalFocusToken, onDirt
               <div className="explore-toolbar">
                 <div className="explore-status-strip">
                   {(showLoadingOverlay || showSettlingStatus) && loadingProgress ? (
-                    <MetricChip>{getGraphLoadTitle(loadingProgress.phase)}</MetricChip>
+                    <MetricChip>{loadingProgress.phase === "stabilizing_layout" ? t("graph.stabilizing") : getGraphLoadTitle(loadingProgress.phase)}</MetricChip>
                   ) : null}
                   {summary ? (
-                    <MetricChip>{summary.nodeCount.toLocaleString()} nodes · {summary.edgeCount.toLocaleString()} edges</MetricChip>
+                    <MetricChip>{t("graph.nodeCount", { count: summary.nodeCount.toLocaleString() })} · {t("graph.relationships", { count: summary.edgeCount.toLocaleString() })}</MetricChip>
                   ) : null}
                   {activeNodeCount !== null ? (
-                    <MetricChip tone="success">{activeNodeCount.toLocaleString()} active</MetricChip>
+                    <MetricChip tone="success">{t("graph.active", { count: activeNodeCount.toLocaleString() })}</MetricChip>
                   ) : null}
                   {focusedSummary ? <MetricChip tone="warm">{focusedSummary}</MetricChip> : null}
                 </div>
@@ -3373,7 +3379,7 @@ export function GraphWorkspace({ externalFocusNodeId, externalFocusToken, onDirt
               ) : null}
 
               <div className="explore-scene-footer">
-                <Suspense fallback={<div style={timelineFallbackStyle}>Loading timeline…</div>}>
+                <Suspense fallback={<div style={timelineFallbackStyle}>{t("graph.loadingTimeline")}</div>}>
                   <LazyTimelinePanel
                     onTimeChange={onTimeChange}
                     minDate={temporalBounds?.min ?? undefined}
@@ -3388,7 +3394,7 @@ export function GraphWorkspace({ externalFocusNodeId, externalFocusToken, onDirt
             <div className="explore-inspector-shell">
               <InspectorPanel open={layoutState.showInspector} className="explore-inspector-card">
                 <div className="explore-inspector-scroll hud-scrollbar">
-                  <Suspense fallback={<div style={inspectorFallbackStyle}>Loading inspector…</div>}>
+                  <Suspense fallback={<div style={inspectorFallbackStyle}>{t("graph.loadingInspector")}</div>}>
                     <LazyGraphInspectorPanel
                       nodeId={selectedNodeId}
                       inspectableNodeId={inspectableNodeId || null}

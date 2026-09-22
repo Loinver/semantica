@@ -9,6 +9,7 @@ import {
   Plus,
   X,
 } from "lucide-react";
+import { useTranslation } from "../../i18n";
 
 type LoaderMode = "url" | "file" | "create";
 type CreateMode = "scratch" | "data" | "text";
@@ -503,6 +504,7 @@ function FileUploadPanel({ onLoaded }: { onLoaded: () => void }) {
 // ---------------------------------------------------------------------------
 
 function CreateNewPanel({ onLoaded }: { onLoaded: () => void }) {
+  const { t } = useTranslation();
   const [createMode, setCreateMode] = useState<CreateMode>("scratch");
   const [namespace, setNamespace] = useState("https://example.org/ontology/");
   const [name, setName] = useState("");
@@ -557,29 +559,29 @@ function CreateNewPanel({ onLoaded }: { onLoaded: () => void }) {
               ...(createMode === m ? modeTabActive : modeTabIdle),
             }}
           >
-            {m === "scratch" ? "From Scratch" : m === "data" ? "From Data" : "From Text"}
+            {m === "scratch" ? t("loader.fromScratch") : m === "data" ? t("loader.fromData") : t("loader.fromText")}
           </button>
         ))}
       </div>
 
-      <FieldGroup label="Display Name *">
+      <FieldGroup label={t("loader.displayName")}>
         <Input value={name} onChange={setName} placeholder="My Ontology" />
       </FieldGroup>
 
-      <FieldGroup label="Namespace URI *">
+      <FieldGroup label={t("loader.namespace")}>
         <Input value={namespace} onChange={setNamespace} placeholder="https://example.org/onto/" />
       </FieldGroup>
 
-      <FieldGroup label="Description">
-        <Input value={description} onChange={setDescription} placeholder="Optional description" />
+      <FieldGroup label={t("loader.description")}>
+        <Input value={description} onChange={setDescription} placeholder={t("loader.optionalDescription")} />
       </FieldGroup>
 
-      <FieldGroup label="Tags (comma-separated)">
-        <Input value={tags} onChange={setTags} placeholder="e.g. internal, draft" />
+      <FieldGroup label={t("loader.tags")}>
+        <Input value={tags} onChange={setTags} placeholder={t("loader.tagsExample")} />
       </FieldGroup>
 
       {createMode === "data" && (
-        <FieldGroup label="Sample Data (JSON or CSV)">
+        <FieldGroup label={t("loader.sampleData")}>
           <Textarea
             value={sampleData}
             onChange={setSampleData}
@@ -590,11 +592,11 @@ function CreateNewPanel({ onLoaded }: { onLoaded: () => void }) {
       )}
 
       {createMode === "text" && (
-        <FieldGroup label="Schema Requirements (natural language)">
+        <FieldGroup label={t("loader.schemaRequirements")}>
           <Textarea
             value={schemaText}
             onChange={setSchemaText}
-            placeholder="Describe the ontology you need. E.g.: I need an ontology for a hospital domain with patients, doctors, appointments, and medications."
+            placeholder={t("loader.schemaPlaceholder")}
             rows={6}
           />
         </FieldGroup>
@@ -623,12 +625,12 @@ function CreateNewPanel({ onLoaded }: { onLoaded: () => void }) {
           {createState === "loading" ? (
             <>
               <Loader2 size={13} style={{ animation: "spin 1s linear infinite" }} />
-              Creating…
+              {t("loader.creating")}
             </>
           ) : (
             <>
               <Plus size={13} />
-              Create Ontology
+              {t("loader.create")}
             </>
           )}
         </button>
@@ -642,6 +644,7 @@ function CreateNewPanel({ onLoaded }: { onLoaded: () => void }) {
 // ---------------------------------------------------------------------------
 
 export function OntologyLoader({ onLoaded, onClose }: LoaderProps) {
+  const { t } = useTranslation();
   const [mode, setMode] = useState<LoaderMode>("url");
 
   return (
@@ -650,9 +653,7 @@ export function OntologyLoader({ onLoaded, onClose }: LoaderProps) {
         <div style={modalHeaderStyle}>
           <div>
             <div style={{ color: "#ebf3ff", fontSize: 16, fontWeight: 800 }}>Load Ontology</div>
-            <div style={{ color: "#8fa8c6", fontSize: 12, marginTop: 2 }}>
-              Import from URL, upload a file, or create a new ontology
-            </div>
+            <div style={{ color: "#8fa8c6", fontSize: 12, marginTop: 2 }}>{t("loader.subtitle")}</div>
           </div>
           <button onClick={onClose} style={closeIconBtnStyle}>
             <X size={16} />
@@ -670,11 +671,11 @@ export function OntologyLoader({ onLoaded, onClose }: LoaderProps) {
               }}
             >
               {m === "url" ? (
-                <><Globe size={12} /> URL Import</>
+                <><Globe size={12} /> {t("loader.urlImport")}</>
               ) : m === "file" ? (
-                <><FileUp size={12} /> File Upload</>
+                <><FileUp size={12} /> {t("loader.fileUpload")}</>
               ) : (
-                <><Plus size={12} /> Create New</>
+                <><Plus size={12} /> {t("loader.createNew")}</>
               )}
             </button>
           ))}

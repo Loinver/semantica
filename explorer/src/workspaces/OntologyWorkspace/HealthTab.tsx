@@ -3,12 +3,14 @@ import type { CSSProperties } from "react";
 import { Download, HeartPulse, Loader2, Wrench } from "lucide-react";
 import { loadOntologyHealth, loadOntologyRegistry } from "./api";
 import type { OntologyEntry, OntologyHealthResponse, HealthIssue } from "./types";
+import { useTranslation } from "../../i18n";
 
 interface HealthTabProps {
   onFixInEditor?: (entityUri: string) => void;
 }
 
 export function HealthTab({ onFixInEditor }: HealthTabProps) {
+  const { t } = useTranslation();
   const [registry, setRegistry] = useState<OntologyEntry[]>([]);
   const [selectedUri, setSelectedUri] = useState("");
   const [health, setHealth] = useState<OntologyHealthResponse | null>(null);
@@ -25,12 +27,12 @@ export function HealthTab({ onFixInEditor }: HealthTabProps) {
       })
       .catch((err) => {
         if (cancelled) return;
-        setError(err instanceof Error ? err.message : "Failed to load ontology registry.");
+        setError(err instanceof Error ? err.message : t("health.failedRegistry"));
       });
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [t]);
 
   const [prevUri, setPrevUri] = useState(selectedUri);
   if (selectedUri !== prevUri) {
@@ -75,15 +77,12 @@ export function HealthTab({ onFixInEditor }: HealthTabProps) {
     <div style={pageStyle}>
       <section style={heroStyle}>
         <div>
-          <div style={kickerStyle}><HeartPulse size={14} /> Ontology Health</div>
-          <h2 style={titleStyle}>Quality and governance signals</h2>
-          <p style={textStyle}>
-            Score completeness, consistency, SHACL readiness, alignment coverage,
-            and documentation quality for the selected ontology.
-          </p>
+          <div style={kickerStyle}><HeartPulse size={14} /> {t("health.kicker")}</div>
+          <h2 style={titleStyle}>{t("health.title")}</h2>
+          <p style={textStyle}>{t("health.description")}</p>
         </div>
         <div style={selectorShellStyle}>
-          <label style={labelStyle}>Ontology</label>
+          <label style={labelStyle}>{t("health.ontology")}</label>
           <select style={inputStyle} value={selectedUri} onChange={(event) => setSelectedUri(event.target.value)}>
             {registry.map((entry) => <option key={entry.uri} value={entry.uri}>{entry.name}</option>)}
           </select>
@@ -93,50 +92,51 @@ export function HealthTab({ onFixInEditor }: HealthTabProps) {
       {error ? <div style={errorStyle}>{error}</div> : null}
 
       {loading ? (
-        <div style={loadingStyle}><Loader2 size={18} className="ws-spin" /> Computing health dashboard...</div>
+        <div style={loadingStyle}><Loader2 size={18} className="ws-spin" /> {t("health.computing")}</div>
       ) : health ? (
         <>
           <section style={{ ...scoreGridStyle, gridTemplateColumns: `220px repeat(${health.dimensions.length}, minmax(180px, 1fr))` }}>
             <div style={scoreCardStyle}>
               <span style={scoreValueStyle}>{Math.round(health.total_score)}</span>
-              <span style={mutedStyle}>Total health score</span>
-              <button style={secondaryButtonStyle} onClick={exportReport}><Download size={14} /> Export report</button>
+              <span style={mutedStyle}>{t("health.total")}</span>
+              <button style={secondaryButtonStyle} onClick={exportReport}><Download size={14} /> {t("health.export")}</button>
             </div>
             {health.dimensions.map((dimension) => (
               <div key={dimension.key} style={dimensionCardStyle}>
                 <div style={dimensionHeadStyle}>
-                  <span style={{ color: "#ebf3ff", fontWeight: 900 }}>{dimension.label}</span>
-                  <span style={statusBadgeStyle(dimension.status)}>{dimension.status}</span>
+                  <span style={{ color: "#ebf3ff", fontWeight: 900 }}>{translateHealthDimension(dimension.label, t)}</span>
+                  <span style={statusBadgeStyle(dimension.status)}>{translateHealthStatus(dimension.status, t)}</span>
                 </div>
                 <div style={barTrackStyle}>
                   <div style={{ ...barFillStyle, width: `${dimension.score}%`, background: dimensionColor(dimension.score, dimension.status) }} />
                 </div>
                 <div style={dimensionFootStyle}>
                   <span>{Math.round(dimension.score)} / 100</span>
-                  <span>{dimension.detail}</span>
+                  <span>{translateHealthDetail(dimension.detail)}</span>
                 </div>
               </div>
             ))}
           </section>
 
           <section style={cardStyle}>
-            <h3 style={sectionTitleStyle}>Actionable issues</h3>
+            <h3 style={sectionTitleStyle}>{t("health.issues")}</h3>
             <div style={issueListStyle}>
               {health.issues.map((issue) => (
                 <IssueRow key={issue.id} issue={issue} onFixInEditor={onFixInEditor} />
               ))}
-              {!health.issues.length ? <p style={mutedStyle}>No actionable issues reported for this ontology.</p> : null}
+              {!health.issues.length ? <p style={mutedStyle}>{t("health.noIssues")}</p> : null}
             </div>
           </section>
         </>
       ) : (
-        <div style={emptyStyle}>Select an ontology to compute health signals.</div>
+        <div style={emptyStyle}>{t("health.select")}</div>
       )}
     </div>
   );
 }
 
 function IssueRow({ issue, onFixInEditor }: { issue: HealthIssue; onFixInEditor?: (entityUri: string) => void }) {
+  const { t } = useTranslation();
   return (
     <div style={issueRowStyle}>
       <div style={severityDotStyle(issue.severity)} />
@@ -149,13 +149,36 @@ function IssueRow({ issue, onFixInEditor }: { issue: HealthIssue; onFixInEditor?
       {issue.entity_uri ? (
         <button style={smallButtonStyle} onClick={() => onFixInEditor?.(issue.entity_uri || "")}>
           <Wrench size={13} />
-          Fix in Editor
+          {t("health.fix")}
         </button>
       ) : (
         <div />
       )}
     </div>
   );
+}
+
+function translateHealthDimension(label: string, t: (key: string) => string) {
+  const key = label.toLowerCase().replace(/[^a-z]+/g, "");
+  return ({ completeness: t("health.completeness"), consistency: t("health.consistency"), shaclconformance: t("health.conformance"), alignmentcoverage: t("health.coverage"), documentation: t("health.documentation") } as Record<string, string>)[key] ?? label;
+}
+
+function translateHealthStatus(status: string, t: (key: string) => string) {
+  return ({ ok: t("health.ok"), warning: t("health.warning"), unavailable: t("health.unavailable") } as Record<string, string>)[status.toLowerCase()] ?? status;
+}
+
+function translateHealthDetail(detail: string) {
+  const labels = /^(\d+)\/(\d+) labeled, (\d+)\/(\d+) documented, (\d+)\/(\d+) defined\.$/.exec(detail);
+  if (labels) return `${labels[1]}/${labels[2]} 已标记，${labels[3]}/${labels[4]} 已记录，${labels[5]}/${labels[6]} 已定义。`;
+  const missingRanges = /^(\d+) properties are missing explicit ranges\.$/.exec(detail);
+  if (missingRanges) return `${missingRanges[1]} 个属性缺少显式范围。`;
+  const aligned = /^(\d+)\/(\d+) classes or properties have an alignment\.$/.exec(detail);
+  if (aligned) return `${aligned[1]}/${aligned[2]} 个类或属性已有对齐。`;
+  const standard: Record<string, string> = {
+    "Graph conforms to all generated SHACL constraints.": "图谱符合所有已生成的 SHACL 约束。",
+    "Measures comments plus source/version metadata.": "衡量注释以及来源/版本元数据。",
+  };
+  return standard[detail] ?? detail;
 }
 
 function dimensionColor(score: number, status: string) {
