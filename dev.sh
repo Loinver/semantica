@@ -1,43 +1,49 @@
 #!/usr/bin/env bash
-# One-click local dev: Semantica backend (:8010) + Vite frontend (:2000)
-#
-# Usage:
-#   ./dev.sh                        # default graph: demo_graph.json
-#   GRAPH_FILE=my_graph.json ./dev.sh
-#
-# Ctrl+C stops both the frontend and the backend it started.
+# Starts the Semantica backend, then the Vite dev server.
+# Invoked by `pnpm dev` from either the repo root or explorer/.
 set -u
 cd "$(dirname "$0")"
 ROOT=$PWD
-GRAPH_FILE=${GRAPH_FILE:-demo_graph.json}
+EXPLORER=$ROOT/explorer
+GRAPH_FILE=${GRAPH_FILE:-$ROOT/demo_graph.json}
+BACKEND_PORT=${BACKEND_PORT:-8010}
+FRONTEND_PORT=${FRONTEND_PORT:-2000}
 BACKEND_PID=""
 
-if lsof -nP -iTCP:8010 -sTCP:LISTEN >/dev/null 2>&1; then
-  echo "OK backend already running on 8010, reusing it"
-else
-  echo "--> starting backend on 8010 (anonymous mode, graph=$GRAPH_FILE)"
-  SEMANTICA_ALLOW_ANONYMOUS=true "$ROOT/.venv/bin/python" -m semantica.explorer \
-    --graph "$GRAPH_FILE" --port 8010 --no-browser &
-  BACKEND_PID=$!
-  ready=""
-  for _ in 1 2 3 4 5 6 7 8 9 10; do
-    if curl -sf http://127.0.0.1:8010/api/health >/dev/null 2>&1; then ready=1; break; fi
-    sleep 1
-  done
-  if [ -n "$ready" ]; then
-    echo "OK backend ready on 8010"
-  else
-    echo "WARN backend still starting up (pid $BACKEND_PID), continuing anyway"
-  fi
+if [ ! -x "$ROOT/.venv/bin/python" ]; then
+  echo "missing $ROOT/.venv/bin/python — create the venv and install semantica[explorer] first" >&2
+  exit 1
 fi
-
-echo "--> starting Vite dev server on 2000 (press Ctrl+C to stop both)"
+if [ ! -f "$GRAPH_FILE" ]; then
+  echo "graph file not found: $GRAPH_FILE" >&2
+  exit 1
+fi
 
 stop_backend() {
   if [ -n "$BACKEND_PID" ]; then
-    kill "$BACKEND_PID" 2>/dev/null
+    kill "$BACKEND_PID" 2>/dev/null || true
+    wait "$BACKEND_PID" 2>/dev/null || true
+    BACKEND_PID=""
   fi
 }
-trap stop_backend INT TERM
+trap stop_backend EXIT INT TERM
 
-(cd "$ROOT/explorer" && pnpm run dev)
+if lsof -nP -iTCP:"$BACKEND_PORT" -sTCP:LISTEN >/dev/null 2>&1; then
+  echo "backend already listening on $BACKEND_PORT, reusing it"
+else
+  echo "starting backend on $BACKEND_PORT (graph=$GRAPH_FILE)"
+  SEMANTICA_ALLOW_ANONYMOUS=true \
+    "$ROOT/.venv/bin/python" -m semantica.explorer \
+    --graph "$GRAPH_FILE" --port "$BACKEND_PORT" --no-browser &
+  BACKEND_PID=$!
+fi
+
+if lsof -nP -iTCP:"$FRONTEND_PORT" -sTCP:LISTEN >/dev/null 2>&1; then
+  echo "frontend already listening on $FRONTEND_PORT" >&2
+  echo "stop that Vite process and run pnpm dev again so it proxies to $BACKEND_PORT" >&2
+  exit 1
+fi
+
+echo "starting frontend on $FRONTEND_PORT"
+cd "$EXPLORER"
+exec env VITE_EXPLORER_API_TARGET="http://127.0.0.1:$BACKEND_PORT" pnpm exec vite --port "$FRONTEND_PORT" --strictPort

@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
   const apiTarget =
     env.VITE_EXPLORER_API_TARGET ??
     process.env.VITE_EXPLORER_API_TARGET ??
-    'http://127.0.0.1:8000'
+    'http://127.0.0.1:8010'
   const wsTarget =
     env.VITE_EXPLORER_WS_TARGET ??
     process.env.VITE_EXPLORER_WS_TARGET ??
