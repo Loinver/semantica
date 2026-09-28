@@ -30,7 +30,11 @@ def install_graph_updates_websocket(
         # CORSMiddleware does not cover WebSocket handshakes. Reject foreign
         # browser origins against the same allowlist used for HTTP CORS.
         origin = websocket.headers.get("origin")
-        if origin is not None and origin not in allowed_origin_set:
+        if (
+            origin is not None
+            and "*" not in allowed_origin_set
+            and origin not in allowed_origin_set
+        ):
             await websocket.close(code=4403)
             return
 
